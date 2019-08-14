@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.amap.api.maps.model.LatLng;
+import com.jiayu.commonbase.manager.TaotutuManager;
 import com.jiayu.online.taotutu_route.activity.NavActivity;
 import com.jiayu.online.taotutu_route.activity.RouteListActivity;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
 
     }
