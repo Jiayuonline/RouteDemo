@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.jiayu.commonbase.manager.TaotutuManager;
 import com.jiayu.online.taotutu_route.activity.RouteListActivity;
 import com.jiayu.online.taotutu_route.bean.RouteDetailBean;
 import com.jiayu.online.taotutu_route.bean.RouteListBean;
@@ -33,8 +34,16 @@ public class MainActivity extends AppCompatActivity {
         btnMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i    = new Intent(MainActivity.this,  RouteListActivity.class);
-                startActivity( i);
+                TaoRouteManager.goRouteList(MainActivity.this);
+            }
+        });
+
+
+        Button btnDetial = findViewById(R.id.btn_detail_activiity);
+        btnDetial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaoRouteManager.goRouteDetail(MainActivity.this,"4635b9cfc91f4965af01aa643faab4ad");
             }
         });
 
@@ -46,14 +55,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 routeManager.getRouteList(1, 10, new RouteListPresenter.OnRouteListCallback() {
                     @Override
-                    public void onSuccess(List<RouteListBean> list) {
+                    public void onSuccess(List<RouteListBean.RouteTwoListBean> list) {
+                        StringBuilder stringBuilder = new StringBuilder();
 
-                        StringBuilder sb = new StringBuilder();
-                        for (RouteListBean routeListBean : list) {
-                            sb.append(routeListBean.getRouteId()+","+routeListBean.getTitle()+"\r\n");
+                        for (RouteListBean.RouteTwoListBean routeTwoListBean : list) {
+                                stringBuilder.append(routeTwoListBean.getRouteId()+","+routeTwoListBean.getTitle()+"\r\n");
                         }
 
-                        tvResp.setText(sb.toString());
+                        tvResp.setText(stringBuilder.toString());
                     }
 
                     @Override

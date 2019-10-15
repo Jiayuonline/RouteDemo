@@ -50,6 +50,7 @@ repositories {
         dirs 'libs'
     }
 }
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -58,7 +59,7 @@ dependencies {
     implementation 'com.android.support:cardview-v7:28.0.0'
 
     implementation(name: 'taotutu_route-release', ext: 'aar')
-    implementation ('com.github.Jiayuonline:TaotutuCore:1.0.5'){
+    implementation ('com.github.Jiayuonline:TaotutuCore:1.0.8'){
         // 禁止传递依赖
 //        transitive false
     }
@@ -80,7 +81,6 @@ dependencies {
 //            annotationProcessor "com.github.bumptech.glide:compiler:4.9.0"
 //    implementation 'com.android.support:appcompat-v7:28.0.0'
 //    implementation "com.android.support:design:28.0.0"
-//
 //    implementation "com.android.support:recyclerview-v7:28.0.0"
 
 

@@ -11,7 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_main"
-        android:text="路书页面"
+        android:text="路书列表"
+        />
+
+     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_detail_activiity"
+        android:text="路书详情"
         />
 
     <Button
