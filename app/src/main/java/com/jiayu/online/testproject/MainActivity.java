@@ -85,22 +85,26 @@ public class MainActivity extends AppCompatActivity {
         btnTTS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                routeManager.getTTSList("121.388467,31.176875", 1, 10, new RouteDetailPresenter.OnTTSCallback() {
-                    @Override
-                    public void onSuccess(List<TTSPointBean> list) {
-                        StringBuilder sb = new StringBuilder();
-                        for (TTSPointBean ttsPointBean : list) {
-                            sb.append(ttsPointBean.getName()+","+ttsPointBean.getAddress()+"\r\n");
-                        }
+                getTTS();
+            }
+        });
+    }
 
-                        tvResp.setText(sb.toString());
-                    }
+    private void getTTS() {
+        routeManager.getTTSList("121.388467,31.176875", 1, 10, new RouteDetailPresenter.OnTTSCallback() {
+            @Override
+            public void onSuccess(List<TTSPointBean> list) {
+                StringBuilder sb = new StringBuilder();
+                for (TTSPointBean ttsPointBean : list) {
+                    sb.append(ttsPointBean.getName()+","+ttsPointBean.getAddress()+"\r\n");
+                }
 
-                    @Override
-                    public void onFailed(Throwable throwable) {
-                        tvResp.setText(throwable.getMessage()  );
-                    }
-                });
+                tvResp.setText(sb.toString());
+            }
+
+            @Override
+            public void onFailed(Throwable throwable) {
+                tvResp.setText(throwable.getMessage()  );
             }
         });
     }
