@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.jiayu.commonbase.http.ApiException;
 import com.jiayu.commonbase.manager.TaotutuManager;
 import com.jiayu.online.taotutu_route.activity.RouteListActivity;
 import com.jiayu.online.taotutu_route.bean.RouteDetailBean;
@@ -16,7 +19,6 @@ import com.jiayu.online.taotutu_route.bean.TTSPointBean;
 import com.jiayu.online.taotutu_route.manager.TaoRouteManager;
 import com.jiayu.online.taotutu_route.presenter.RouteDetailPresenter;
 import com.jiayu.online.taotutu_route.presenter.RouteListPresenter;
-
 import java.util.List;
 
 
@@ -24,6 +26,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
     private TextView tvResp;
+    int pageNo =  1;
+    String routeId = "r201908290";
+    private TaoRouteManager routeManager;
+    private EditText et_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button btnMain = findViewById(R.id.btn_main);
         tvResp = findViewById(R.id.tv_resp);
+        et_id = findViewById(R.id.et_id);
+        routeManager = new TaoRouteManager();
+
+
+
         btnMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,33 +55,21 @@ public class MainActivity extends AppCompatActivity {
         btnDetial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaoRouteManager.goRouteDetail(MainActivity.this,"4635b9cfc91f4965af01aa643faab4ad");
+                String id = et_id.getText().toString();
+                if ( id.isEmpty()){
+                    id = routeId;
+                }
+                TaoRouteManager.goRouteDetail(MainActivity.this,id);
             }
         });
 
-        final TaoRouteManager routeManager = new TaoRouteManager();
 
         Button btnList = findViewById(R.id.btn_list);
         btnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                routeManager.getRouteList(1, 10, new RouteListPresenter.OnRouteListCallback() {
-                    @Override
-                    public void onSuccess(List<RouteListBean.RouteTwoListBean> list) {
-                        StringBuilder stringBuilder = new StringBuilder();
-
-                        for (RouteListBean.RouteTwoListBean routeTwoListBean : list) {
-                                stringBuilder.append(routeTwoListBean.getRouteId()+","+routeTwoListBean.getTitle()+"\r\n");
-                        }
-
-                        tvResp.setText(stringBuilder.toString());
-                    }
-
-                    @Override
-                    public void onFailed(Throwable throwable) {
-
-                    }
-                });
+                pageNo = 1;
+                getRouteList();
             }
         });
 
@@ -77,19 +77,7 @@ public class MainActivity extends AppCompatActivity {
         btnDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                routeManager.getRouteDetail("r201811002", new RouteDetailPresenter.OnDetailCallback() {
-                    @Override
-                    public void onSuccess(RouteDetailBean routeDetailBean) {
-
-
-                        tvResp.setText(routeDetailBean.getTitle()+"\r\n"+routeDetailBean.getDeparture());
-                    }
-
-                    @Override
-                    public void onFailed(Throwable throwable) {
-
-                    }
-                });
+                getRouteDetail();
             }
         });
         Button btnTTS = findViewById(R.id.btn_tts);
@@ -110,11 +98,61 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailed(Throwable throwable) {
-
+                        tvResp.setText(throwable.getMessage()  );
                     }
                 });
             }
         });
+    }
 
+    private void getRouteDetail() {
+
+        String id = et_id.getText().toString();
+        if ( id.isEmpty()){
+            id = routeId;
+        }
+
+
+        routeManager.getRouteDetail(id, new RouteDetailPresenter.OnDetailCallback() {
+            @Override
+            public void onSuccess(RouteDetailBean routeDetailBean) {
+
+                String json = new Gson().toJson(routeDetailBean);
+
+                tvResp.setText(json  );
+            }
+
+            @Override
+            public void onFailed(Throwable throwable) {
+                tvResp.setText(throwable.getMessage() );
+
+            }
+        });
+    }
+
+    private void getRouteList() {
+        routeManager.getRouteList(pageNo, 10, new RouteListPresenter.OnRouteListCallback() {
+            @Override
+            public void onSuccess(List<RouteListBean.RouteTwoListBean> list) {
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for (RouteListBean.RouteTwoListBean routeTwoListBean : list) {
+                    stringBuilder.append(routeTwoListBean.getRouteId() + "," + routeTwoListBean.getTitle() + "\r\n");
+                }
+
+                tvResp.setText(stringBuilder.toString());
+            }
+
+            @Override
+            public void onFailed(Throwable throwable) {
+                tvResp.setText(throwable.getMessage());
+
+            }
+        });
+    }
+
+    public void nextPage(View view) {
+        pageNo++;
+        getRouteList();
     }
 }

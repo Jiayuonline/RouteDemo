@@ -10,12 +10,11 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        TaotutuManager.setAccessSecret("56cbaf232dbd48d9b6b7b88760b5784e");
-        TaotutuManager.setAccessKey("7b51de35ba4f465a81c48af594df38e1");
-        TaotutuManager.setChannel("taotutu");
-        TaotutuManager.setPlatform("andorid");
-        TaotutuManager.setUniqueCode("123");
-        TaotutuManager.init(this);
-
+        TaotutuManager.getInstance().setAccessSecret("56cbaf232dbd48d9b6b7b88760b5784e");
+        TaotutuManager.getInstance().setAccessKey("7b51de35ba4f465a81c48af594df38e1");
+        TaotutuManager.getInstance().setChannel("taotutu");
+        TaotutuManager.getInstance().setPlatform("andorid");
+        TaotutuManager.getInstance().setUniqueCode("123");
+        TaotutuManager.getInstance().init(this);
     }
 }
