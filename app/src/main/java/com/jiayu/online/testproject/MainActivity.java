@@ -13,6 +13,8 @@ import com.google.gson.Gson;
 import com.jiayu.commonbase.http.ApiException;
 import com.jiayu.commonbase.manager.TaotutuManager;
 import com.jiayu.online.taotutu_route.activity.RouteListActivity;
+import com.jiayu.online.taotutu_route.bean.RouteBookDetailBean;
+import com.jiayu.online.taotutu_route.bean.RouteBookListBean;
 import com.jiayu.online.taotutu_route.bean.RouteDetailBean;
 import com.jiayu.online.taotutu_route.bean.RouteListBean;
 import com.jiayu.online.taotutu_route.bean.TTSPointBean;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
     private TextView tvResp;
     int pageNo =  1;
-    String routeId = "r201908290";
+    String routeId = "r201920260";
     private TaoRouteManager routeManager;
     private EditText et_id;
 
@@ -36,32 +38,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btnMain = findViewById(R.id.btn_main);
         tvResp = findViewById(R.id.tv_resp);
         et_id = findViewById(R.id.et_id);
         routeManager = new TaoRouteManager();
 
 
 
-        btnMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TaoRouteManager.goRouteList(MainActivity.this);
-            }
-        });
-
-
-        Button btnDetial = findViewById(R.id.btn_detail_activiity);
-        btnDetial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String id = et_id.getText().toString();
-                if ( id.isEmpty()){
-                    id = routeId;
-                }
-                TaoRouteManager.goRouteDetail(MainActivity.this,id);
-            }
-        });
 
 
         Button btnList = findViewById(R.id.btn_list);
@@ -119,16 +101,14 @@ public class MainActivity extends AppCompatActivity {
 
         routeManager.getRouteDetail(id, new RouteDetailPresenter.OnDetailCallback() {
             @Override
-            public void onSuccess(RouteDetailBean routeDetailBean) {
-
-                String json = new Gson().toJson(routeDetailBean);
+            public void onSuccess(RouteBookDetailBean routeBookDetailBean) {
+                String json = new Gson().toJson(routeBookDetailBean);
 
                 tvResp.setText(json  );
             }
 
             @Override
             public void onFailed(Throwable throwable) {
-                tvResp.setText(throwable.getMessage() );
 
             }
         });
@@ -137,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
     private void getRouteList() {
         routeManager.getRouteList(pageNo, 10, new RouteListPresenter.OnRouteListCallback() {
             @Override
-            public void onSuccess(List<RouteListBean.RouteTwoListBean> list) {
+            public void onSuccess(List<RouteBookListBean> list) {
                 StringBuilder stringBuilder = new StringBuilder();
 
-                for (RouteListBean.RouteTwoListBean routeTwoListBean : list) {
+                for (RouteBookListBean routeTwoListBean : list) {
                     stringBuilder.append(routeTwoListBean.getRouteId() + "," + routeTwoListBean.getTitle() + "\r\n");
                 }
 
@@ -149,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailed(Throwable throwable) {
-                tvResp.setText(throwable.getMessage());
 
             }
         });
