@@ -31,7 +31,11 @@ android {
             keyPassword "123456"
         }
     }
-
+    sourceSets{
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     buildTypes {
         release {
             debuggable true
@@ -61,12 +65,11 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.2.4'
 
 
-    implementation(name: 'taotutu_route-release', ext: 'aar')
+    //淘途途核心库
     implementation ('com.github.Jiayuonline:TaotutuCore:1.0.10'){
         // 禁止传递依赖
 //        transitive false
     }
-
 
     //如果禁止taotutuCore传递依赖 则需要单独添加以下依赖
 //    implementation "com.squareup.okhttp3:okhttp:3.11.0"
@@ -77,20 +80,14 @@ dependencies {
 //    implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
 //    implementation "com.google.code.gson:gson:2.2.4"
 //    implementation "com.squareup.retrofit2:converter-gson:2.4.0"
-//    implementation "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21"
-//    implementation "com.scwang.smartrefresh:SmartRefreshHorizontal:0.0.1"
-//    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30"
-//    implementation "com.github.bumptech.glide:glide:4.9.0"
-//            annotationProcessor "com.github.bumptech.glide:compiler:4.9.0"
-//    implementation 'com.android.support:appcompat-v7:28.0.0'
-//    implementation "com.android.support:design:28.0.0"
-//    implementation "com.android.support:recyclerview-v7:28.0.0"
 
 
+    //车友组队相关
+    implementation 'com.github.0xZhangKe:WebSocketDemo:3.1'
+    implementation(name: 'grouplib-release', ext: 'aar')
+    //路书相关
+    implementation(name: 'taotutu_route-release', ext: 'aar')
 
-    //如果使用淘途途路书页面 需要添加以下两行
-    implementation(name: 'taotutu_tts-release', ext: 'aar')
-    implementation(name: 'AMap3DMap_6.9.2_AMapNavi_6.9.0_AMapSearch_6.9.2_AMapLocation_4.7.0_20190710', ext: 'aar')
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

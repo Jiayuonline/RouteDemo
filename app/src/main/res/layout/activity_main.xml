@@ -50,6 +50,32 @@
 
         />
 
+     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="车队列表"
+        android:layout_marginTop="20dp"
+        android:onClick="groupList"
+        />
+
+   <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="连接车队"
+        android:onClick="connectGroup"
+        />
+
+
+  <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="连接语音"
+        android:onClick="connectRoom"
+        />
+
+
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
